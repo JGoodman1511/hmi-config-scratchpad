@@ -384,59 +384,93 @@
     }
 
     function openNestedParameter(parentKey, nestedKey) {
-      const param = parameters[parentKey];
-      const nested = param.nested[nestedKey];
-      document.getElementById('param-name').innerText = nested.name;
-      document.getElementById('param-desc').innerText = nested.description;
-      const optionsDiv = document.getElementById('param-options');
-      optionsDiv.innerHTML = '';
+  const param = parameters[parentKey];
+  const nested = param.nested[nestedKey];
+  document.getElementById('param-name').innerText = nested.name;
+  document.getElementById('param-desc').innerText = nested.description;
+  const optionsDiv = document.getElementById('param-options');
+  optionsDiv.innerHTML = '';
 
-      if (nested.options) {
-        nested.options.forEach(option => {
-          const btn = document.createElement('button');
-          btn.innerText = option;
-          if (option === nested.current) btn.classList.add('highlight-selected');
-          btn.onclick = () => {
-            nested.current = option;
-            document.getElementById(`value-${parentKey}-${nestedKey}`).innerText = option;
-          };
-          optionsDiv.appendChild(btn);
-        });
-      } else if (nested.type === 'text') {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = nested.current;
-        optionsDiv.appendChild(input);
+  if (nested.options) {
+    nested.options.forEach(option => {
+      const btn = document.createElement('button');
+      btn.innerText = option;
+      if (option === nested.current) btn.classList.add('highlight-selected');
+      btn.onclick = () => {
+        nested.current = option;
+        // Update the visible value on the nested button
+        const displayValue = nested.current;
+        const valueElement = document.getElementById(`value-${parentKey}-${nestedKey}`);
+        if (valueElement) valueElement.innerText = displayValue;
 
-        const numpad = document.createElement('div');
-        numpad.className = 'numpad';
-        ['1','2','3','4','5','6','7','8','9','.','0','←','C'].forEach(val => {
-          const btn = document.createElement('button');
-          btn.innerText = val;
-          btn.onclick = () => {
-            if (val === 'C') input.value = '';
-            else if (val === '←') input.value = input.value.slice(0, -1);
-            else if (val === '.' && input.value.includes('.')) return;
-            else input.value += val;
-          };
-          numpad.appendChild(btn);
-        });
-        optionsDiv.appendChild(numpad);
+        // Return to the parent menu
+        openParameterMenu(parentKey);
+      };
+      optionsDiv.appendChild(btn);
+    });
 
-        const enterBtn = document.createElement('button');
-        enterBtn.className = 'enter-button';
-        enterBtn.innerText = 'Enter';
-        enterBtn.onclick = () => {
-          nested.current = input.value;
-          const parent = parameters['alarm'];
-          const unit = parent.nested.mode.current === 'Power' ? 'kW' : '%';
-          document.getElementById(`value-$1-$2`).innerText = input.value + (['low','high'].includes('$2') ? ' ' + unit : '');
-        };
-        optionsDiv.appendChild(enterBtn);
+  } else if (nested.type === 'text') {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = nested.current;
+    optionsDiv.appendChild(input);
 
-      }
-      showScreen('parameterScreen');
-    }
+    const numpad = document.createElement('div');
+    numpad.className = 'numpad';
+    ['1','2','3','4','5','6','7','8','9','.','0','←','C'].forEach(val => {
+      const btn = document.createElement('button');
+      btn.innerText = val;
+      btn.onclick = () => {
+        if (val === 'C') input.value = '';
+        else if (val === '←') input.value = input.value.slice(0, -1);
+        else if (val === '.' && input.value.includes('.')) return;
+        else input.value += val;
+      };
+      numpad.appendChild(btn);
+    });
+    optionsDiv.appendChild(numpad);
+
+    const enterBtn = document.createElement('button');
+    enterBtn.className = 'enter-button';
+    enterBtn.innerText = 'Enter';
+    enterBtn.onclick = () => {
+      nested.current = input.value;
+      const valueElement = document.getElementById(`value-${parentKey}-${nestedKey}`);
+      if (valueElement) valueElement.innerText = input.value;
+      openParameterMenu(parentKey);
+    };
+    optionsDiv.appendChild(enterBtn);
+
+  } else if (nested.type === 'range') {
+    const input = document.createElement('input');
+    input.type = 'range';
+    input.min = nested.min;
+    input.max = nested.max;
+    input.step = nested.step;
+    input.value = nested.current;
+    const label = document.createElement('div');
+    label.innerText = `${nested.current}`;
+    input.oninput = () => {
+      label.innerText = `${input.value}`;
+    };
+    optionsDiv.appendChild(label);
+    optionsDiv.appendChild(input);
+
+    const enterBtn = document.createElement('button');
+    enterBtn.className = 'enter-button';
+    enterBtn.innerText = 'Enter';
+    enterBtn.onclick = () => {
+      nested.current = input.value;
+      const valueElement = document.getElementById(`value-${parentKey}-${nestedKey}`);
+      if (valueElement) valueElement.innerText = input.value;
+      openParameterMenu(parentKey);
+    };
+    optionsDiv.appendChild(enterBtn);
+  }
+
+  showScreen('parameterScreen');
+}
+
 
     function openParameterMenu(paramKey) {
       const param = parameters[paramKey];
