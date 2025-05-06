@@ -251,13 +251,13 @@
           mode: {
             name: 'Mode',
             description: 'Select RS-485 mode',
-            options: ['STANDARD', 'MODBUS RTU', 'MODBUS TCP/IP'],
-            current: 'STANDARD'
+            options: ['Standard', 'MODBUS RTU', 'MODBUS TCP/IP'],
+            current: 'Standard'
           },
           baudrate: {
             name: 'Baudrate',
-            description: 'Enter communication baudrate',
-            type: 'text',
+            description: 'Select baudrate',
+            options: ['9600', '19200', '38400', '57600', '115200'],
             current: '9600'
           },
           address: {
