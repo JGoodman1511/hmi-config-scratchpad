@@ -1,0 +1,116 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #101F3B;
+      color: #ffffff;
+    }
+    .screen {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .option-button {
+      background-color: #b1cbff1b;
+      border: 2px solid #a9c6ff;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .option-button .label {
+      font-size: 0.9em;
+      color: #a9c6ff;
+    }
+    .option-button .value {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .parameter-menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    .parameter-description {
+      font-size: 1.5em;
+      font-weight: bold;
+      position: fixed;
+      margin-bottom: 20px;
+    }
+    .parameter-details {
+      font-size: 0.9em;
+      color: #a9c6ff;
+      margin-top: 35px;
+      position: fixed;
+    }
+    .parameter-options button,
+    .parameter-options input[type=text],
+    .parameter-options input[type=range] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #a9c6ff;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+    .parameter-options input[type=text],
+    .parameter-options input[type=range] {
+      font-weight: bold;
+    }
+    .parameter-options input[type=range] {
+      accent-color: #a9c6ff;
+    }
+    .highlight-selected {
+      background-color: #c6d6f6;
+      font-weight: bold;
+    }
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding-top: 10px;
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+    .numpad button {
+      font-size: 1.5em;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 0 -5px;
+    }
+    .parameter-options .enter-button {
+      padding: 15px;
+      width: 90%;
+      font-size: 1.2em;
+      font-weight: bold;
+      border-radius: 5px;
+      border: 1px solid #a9c6ff;
+      background-color: #c6d6f6;
+      margin-left: 20px;
+    }
+    .back-button {
+      margin-top: 80px;
+      position: fixed;
+      padding: 15px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      color: white;
+      border: 7px solid #ffcc66;
+      background: linear-gradient(to bottom, #e3840b, #ffcc66);
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  
